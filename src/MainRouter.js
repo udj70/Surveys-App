@@ -3,10 +3,12 @@ import { Routes } from 'react-router';
 
 import CreateSurvey from './pages/Survey/components/createSurvey';
 import SurveyList from './pages/Home/components/surveyList';
-// import PrivateRoute from './Auth/PrivateRoute';
+import PrivateRoute from './components/privateRoute';
 import Menu from './pages/Navbar/components/Menu';
 import SurveyDetailPage from './pages/Survey/components/surveyDetail';
-
+import SurveyResult from './pages/Survey/components/surveyResult';
+import Signin from './pages/Signin/components/signIn';
+import React from 'react';
 
 function MainRouter(){
     return(
@@ -19,9 +21,18 @@ function MainRouter(){
                 <PrivateRoute exact path="/allusers" component={Users}/>
                 <Route exact path="/search" component={Search}/> */}
                 {/* updated from react-router-dom 6 version */}
+                <Route path = "/surveyResults/:surveyId" element={<SurveyResult/>}/>
                 <Route path = "/surveyDetailPage/:surveyId" element={<SurveyDetailPage/>}/>
                 <Route path="/" element={<SurveyList/>}/>
-                <Route path="/createSurvey" element={<CreateSurvey/>}/>
+                <Route
+                    path="/createSurvey"
+                    element={
+                        <PrivateRoute>
+                            <CreateSurvey />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path="/signin" element={<Signin/>}/>
             </Routes>
         </BrowserRouter>
     )
