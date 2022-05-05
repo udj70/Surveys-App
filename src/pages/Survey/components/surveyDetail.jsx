@@ -89,7 +89,7 @@ const SurveyDetailPage = () => {
                     
                 
             })}
-            <Link to={"/surveyResults/"+ surveyId}>
+            <Link to={"/surveyResults/"+ surveyId} style={{textDecoration : 'none'}}>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>
                         Save responses
                 </Button>

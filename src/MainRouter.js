@@ -9,6 +9,7 @@ import SurveyDetailPage from './pages/Survey/components/surveyDetail';
 import SurveyResult from './pages/Survey/components/surveyResult';
 import Signin from './pages/Signin/components/signIn';
 import React from 'react';
+import MySurveys from './pages/Survey/components/mySurveys';
 
 function MainRouter(){
     return(
@@ -27,12 +28,13 @@ function MainRouter(){
                 <Route
                     path="/createSurvey"
                     element={
-                        <PrivateRoute>
+                        <PrivateRoute path>
                             <CreateSurvey />
                         </PrivateRoute>
                     }
                 />
                 <Route path="/signin" element={<Signin/>}/>
+                <Route path="/mySurvey" element={<MySurveys/>}/>
             </Routes>
         </BrowserRouter>
     )

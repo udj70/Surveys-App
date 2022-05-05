@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 
 const CreateSurvey=()=>{
     //console.log("hello")
-    const surveyState=useSelector(state=>state);
+    const surveyState=useSelector(state=>state.survey);
     const dispatch=useDispatch()
     const [surveyId,setSurveyId] = useState(0);
     const [surveyName,setSurveyName] = useState("");
@@ -33,7 +33,8 @@ const CreateSurvey=()=>{
 
     const handleSubmit= ()=>{
         if(questionList.length){
-            const survey={"surveyId":surveyId,
+            const survey={"user" : sessionStorage.getItem("user"),
+                        "surveyId":surveyId,
                         "surveyName":surveyName,
                         "surveyDetails":surveyDetails,
                     "questionList":questionList}

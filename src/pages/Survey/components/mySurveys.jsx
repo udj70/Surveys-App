@@ -1,5 +1,6 @@
-import React, { useEffect ,useState} from "react";
-import { useSelector } from "react-redux";
+import React, { useState , useEffect} from "react";
+import { useSelector }  from "react-redux";
+
 import { Link } from "react-router-dom";
 
 import Loading from "../../../components/loading";
@@ -11,44 +12,48 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-    display: 'inline-block',
-    margin: '3px'
-  },
-  pos: {
-    marginBottom: 12,
-    display:'inline-block',
-    margin: '3px'
-  },
-  button:{
+    root: {
+      minWidth: 275,
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+      display: 'inline-block',
+      margin: '3px'
+    },
+    pos: {
+      marginBottom: 12,
       display:'inline-block',
-      float:'right',
-      alignContent: 'center',
-  },
-  content:{
-      display:'inline-block'
-  }
-});
-
-
-const SurveyList=()=>{
-    const surveyList = useSelector(state => state.survey.surveys);
+      margin: '3px'
+    },
+    button:{
+        display:'inline-block',
+        float:'right',
+        alignContent: 'center'
+    },
+    content:{
+        display:'inline-block'
+    }
+  });
+  
+const MySurveys = ()=>{
+    const surveyState = useSelector(state=>state.survey)
+    const currentUser=sessionStorage.getItem("user")
+    const currentUserSurveys = surveyState.surveys.filter(survey => survey.user == currentUser ) 
+    
     const [loading,setLoading] = useState(false);
     useEffect(()=>{
-            setLoading(true);
-            setTimeout(()=>setLoading(false),1000);
-        },
+        setLoading(true);
+        setTimeout(()=>setLoading(false),1000);
+    },
     []);
+
     const classes =useStyles();
+    
     if(loading){
         return(
             <div style={{position:'absolute',left: '50%', top: '50%',
@@ -59,16 +64,11 @@ const SurveyList=()=>{
             </div> 
                     )     
     }
-    if(!surveyList.length){
-        return(
-            <div>No surveys Present. Create a survey</div>
-        )
-    }
+    
     return(
         <React.Fragment>
-            {surveyList.map(survey=>{
+            {currentUserSurveys.map(survey => {
                 return(
-                   
                     <Card className={classes.root} variant="outlined">
                         <CardContent className={classes.content}>
                             <Typography className={classes.title} color="initial" component="h2" variant="h5" gutterBottom>
@@ -79,18 +79,18 @@ const SurveyList=()=>{
                                 {survey.surveyName}
                             </Typography>
                             <Typography variant="body2" component="p" color="textSecondary">
-                               {survey.surveyDetails}
+                            {survey.surveyDetails}
                             </Typography>
                         </CardContent>
                         <CardActions className={classes.button}>
-                            <Link to = {"/surveyDetailPage/" + survey.surveyId} style={{textDecoration : 'none'}}> 
-                                <Button size="small" variant="contained" color="primary">Take Survey</Button>
+                            <Link to = {"/surveyResults/" + survey.surveyId} style={{textDecoration : 'none'}}> 
+                                <Button size="small" variant="contained" color="primary">Survey Results</Button>
                             </Link>
                         </CardActions>
-                  </Card>
-                )
-            })}
+                    </Card>
+                )})}
         </React.Fragment>
     )
+
 }
-export default SurveyList
+export default MySurveys;

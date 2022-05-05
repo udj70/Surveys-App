@@ -1,10 +1,12 @@
 import auth from '../auth';
 
-import { Navigate } from 'react-router';
+import { Navigate ,useLocation} from 'react-router';
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({ children , path :Path}) => {
         const verified = auth.isAuthenticated() ;
-        return verified ? children : <Navigate to="/signin" />;
+        console.log(Path);
+        const location =useLocation();
+        return verified ? children : <Navigate to="/signin" state={{from: location}}/>;
       }
 
 

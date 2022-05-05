@@ -1,7 +1,30 @@
-import { useSelector, useDispatch } from 'react-redux';
-import {Link, withRouter} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import auth from '../../../auth';
 import '../styles/Menu.css';
-const Menu=()=>{
+import {
+    useLocation,
+    useNavigate,
+    useParams,
+  } from "react-router-dom";
+  
+function withRouter(Component) {
+    function ComponentWithRouterProp(props) {
+      let location = useLocation();
+      let navigate = useNavigate();
+      let params = useParams();
+      return (
+        <Component
+          {...props}
+          router={{ location, navigate, params }}
+        />
+      );
+    }
+  
+    return ComponentWithRouterProp;
+  }
+
+
+const Menu=(props)=>{
     
     // const dispatch=useDispatch();
     
@@ -13,36 +36,30 @@ const Menu=()=>{
                         </Link>
                     </div>   
                    
-                
-
-                    <div className='nav'>
-                        <Link to='/about' className='link'>
-                            About
-                        </Link>
-                    </div>   
-                    
-                    {/* {!auth.isAuthenticated() && 
+                    {!auth.isAuthenticated() && 
                         (<div className='nav'>
                             <Link to='/signin' className='link' >
                                 Signin
                             </Link>
                         </div>)
-                    }         */}
-                    {/* {auth.isAuthenticated() && (<div className='nav'>
+                    }        
+                    {auth.isAuthenticated() && (<div className='nav'>
                                                 
-                                                        <Link to='/' className='link' onClick={()=>{auth.signout(); dispatch(deleteCart())}}>
+                                                        <Link to='/' className='link' onClick={()=>{sessionStorage.removeItem("user")}}>
                                                             Logout
                                                         </Link>
                                                     
                                                 </div>)
-                    }     */}
-         
-                    <div className='nav'>
-                            <Link to='/allusers' className='link' >
-                                All Users
-                            </Link>
-                    </div>
-
+                    }    
+                    {auth.isAuthenticated() && (<div className='nav'>
+                                                
+                                                <Link to='/mySurvey' className='link'>
+                                                    My Surveys
+                                                </Link>
+                                            
+                                        </div>)
+                    }    
+                   
                     <div className='nav'>
                             <Link to='/createSurvey' className='link' >
                                 Create Survey
@@ -57,4 +74,4 @@ const Menu=()=>{
             </div>
 
                )}
-export default Menu;
+export default withRouter(Menu);

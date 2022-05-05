@@ -1,5 +1,3 @@
-
-//import { red } from "@material-ui/core/colors";
 import { useSelector, useDispatch } from "react-redux";
 import {  useEffect, useState } from "react"
 import { Navigate } from "react-router"
@@ -13,8 +11,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 import Loading from '../../../components/loading';
 
@@ -34,7 +31,7 @@ const useStyles = makeStyles({
     title: {
         marginTop: 2,
         color:'red',
-        //fontSize:30
+       
     },
     textField: {
         marginLeft: 10,
@@ -71,6 +68,7 @@ function Signin(props){
     const handleClick=()=>{
         const selected_user=users.filter(user=>user.userid===userid && user.password===password);
         if(selected_user.length){
+            sessionStorage.setItem("user",selected_user[0].userid);
             setRedirect(true);
         }
         else{
@@ -92,7 +90,7 @@ function Signin(props){
     const classes=useStyles();
     
     if(redirectToReffferer){
-        const from=(window.history.state.state!==undefined)?(window.history.state.state.from.pathname!==undefined?window.history.state.state.from.pathname:window.history.state.state.from):'/'
+        const from=(window.history.state.usr!=null)?(window.history.state.usr.from!==undefined?window.history.state.usr.from.pathname:'/'):'/'
         return(<Navigate to={from}/>)
     }
     if(loading){
